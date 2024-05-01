@@ -41,7 +41,7 @@ public class TrafficGUI extends BorderPane {
 		
 		VBox displayPanel = new VBox();
 //		displayPanel.setStyle(panelCSS);
-		displayPanel.getStyleClass();
+		displayPanel.getStyleClass().add("vbox");
 		Label titleLbl = new Label("Traffic Display");
 		// need time display
 		
