@@ -1,1 +1,9 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.vbox {
+	-fx-border-color: black;
+    -fx-border-insets: 15;
+    -fx-border-width: 2;
+    -fx-border-style: solid;
+    -fx-padding: 15;
+}
