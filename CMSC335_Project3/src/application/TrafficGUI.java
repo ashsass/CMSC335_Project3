@@ -20,16 +20,14 @@ public class TrafficGUI extends BorderPane {
 		// bottom border for play, pause, etc buttons
 		// center border to hold the main ui
 	
-//	TrafficGUI trafficGui;
 	
 	public TrafficGUI() {
-//		TrafficGUI trafficGui = new TrafficGUI();
-//		getChildren().add(new Button("hello"));
 		this.setBorders();
 	}
 	
 	private final void setBorders() {
 		this.setLeft(createDisplayPanel());
+		this.setBottom(createFooter());
 	}
 
 	public VBox createDisplayPanel() {
@@ -58,6 +56,18 @@ public class TrafficGUI extends BorderPane {
 
 		displayPanel.getChildren().addAll(titleLbl, car1Lbl, car2Lbl, car3Lbl, vbox);
 		return displayPanel;
+	}
+	
+	public HBox createFooter() {
+		// Really like for the footer to be moved to the right so that the left border and fill that bottom space
+		HBox footer = new HBox(10);
+//		footer.setPadding(new Insets(5, 40, 5, 40));
+		setMargin(footer, new Insets(5, 40, 5, 200));
+		Button[] btnArray = {new Button("Play"), new Button("Pause"), new Button("Continue"), new Button("Stop")};
+		for(Button e: btnArray) {
+			footer.getChildren().add(e);
+		}
+		return footer;
 	}
 	
 

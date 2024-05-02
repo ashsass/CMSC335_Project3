@@ -1,9 +1,24 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 
 .vbox {
-	-fx-border-color: black;
-    -fx-border-insets: 15;
+	-fx-border-color: grey;
+    /*-fx-border-insets: 15;*/
     -fx-border-width: 2;
     -fx-border-style: solid;
+    -fx-border-radius: 5;
     -fx-padding: 15;
+    -fx-background-radius: 5;
+    -fx-background-color: #D3D3D3;
 }
+
+#header-text {
+	-fx-font-size: 25;
+}
+
+/* 
+ * want an universal font family as well
+ * space between the title label and the cars
+ * space between the cars and the buttons 
+ * fix padding around buttons to have some space
+ * add in the buttons on the bottom */
+  
