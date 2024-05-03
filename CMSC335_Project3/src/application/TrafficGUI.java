@@ -11,7 +11,10 @@ package application;
  * For now the constructor will call the building of the different layouts?
  */
 import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 public class TrafficGUI extends BorderPane {
@@ -19,7 +22,7 @@ public class TrafficGUI extends BorderPane {
 		// left border for display pane
 		// bottom border for play, pause, etc buttons
 		// center border to hold the main ui
-	
+	Group group = new Group();
 	
 	public TrafficGUI() {
 		this.setBorders();
@@ -28,6 +31,9 @@ public class TrafficGUI extends BorderPane {
 	private final void setBorders() {
 		this.setLeft(createDisplayPanel());
 		this.setBottom(createFooter());
+		// Will call add car else where down the road 
+//		addCar(createCar());
+		this.setCenter(createCar());
 	}
 
 	public VBox createDisplayPanel() {
@@ -41,6 +47,7 @@ public class TrafficGUI extends BorderPane {
 //		displayPanel.setStyle(panelCSS);
 		displayPanel.getStyleClass().add("vbox");
 		Label titleLbl = new Label("Traffic Display");
+		titleLbl.getStyleClass().add("header-text");
 		// need time display
 		
 		// display speed of cars
@@ -68,6 +75,16 @@ public class TrafficGUI extends BorderPane {
 			footer.getChildren().add(e);
 		}
 		return footer;
+	}
+	
+	public ImageView createCar() {
+		ImageView car = new ImageView(new Image(getClass().getResourceAsStream("/resources/car.png")));
+		return car;
+	}
+	
+	public void addCar(ImageView car) {
+		car.setTranslateY(200);
+		group.getChildren().add(car);
 	}
 	
 

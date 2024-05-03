@@ -7,9 +7,13 @@
 package application;
 	
 import javafx.application.Application;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.layout.*;
+//import javafx.scene.layout.*;
+//import java.io.*;
 
 
 public class TrafficMain extends Application {
@@ -17,7 +21,11 @@ public class TrafficMain extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			TrafficGUI root = new TrafficGUI();
-			Scene scene = new Scene(root,600,300);
+//			Group root = new Group();
+//			ImageView car = new ImageView(new Image(getClass().getResourceAsStream("car.png")));
+//			root.getChildren().add(car);
+			
+			Scene scene = new Scene(root,900,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Traffic Control");
