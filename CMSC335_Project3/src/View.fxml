@@ -23,7 +23,7 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <Label fx:id="time_display" alignment="CENTER" prefHeight="34.0" prefWidth="169.0" text="Time Display" />
+            <Label fx:id="timeDisplay" alignment="CENTER" prefHeight="34.0" prefWidth="169.0" text="Time Display" />
             <Label fx:id="car_1" prefHeight="45.0" prefWidth="200.0" text="Car #1">
                <padding>
                   <Insets left="10.0" />
@@ -65,7 +65,7 @@
    <bottom>
       <HBox prefHeight="55.0" prefWidth="900.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="startBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="90.0" text="Start">
+            <Button fx:id="startBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#start" prefWidth="90.0" text="Start">
                <HBox.margin>
                   <Insets left="300.0" right="50.0" top="10.0" />
                </HBox.margin>
@@ -118,15 +118,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Line endX="53.2255859375" endY="0.2928932309150696" startX="-657.2744750976562" startY="0.2928932309150696" GridPane.rowIndex="2" />
-            <ImageView fx:id="car" fitHeight="89.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
-               <image>
-                  <Image url="@resources/car.png" />
-               </image>
-               <GridPane.margin>
-                  <Insets bottom="10.0" />
-               </GridPane.margin>
-            </ImageView>
+            <Line fx:id="road" endX="53.2255859375" endY="0.2928932309150696" startX="-657.2744750976562" startY="0.2928932309150696" GridPane.rowIndex="2" />
             <ImageView fx:id="trafficLight" fitHeight="41.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <image>
                   <Image url="@resources/green-light.png" />

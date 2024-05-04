@@ -3,5 +3,6 @@ module CMSC335_Project3 {
 	requires javafx.graphics;
 	requires javafx.fxml;
 	
+	
 	opens application to javafx.graphics, javafx.fxml;
 }

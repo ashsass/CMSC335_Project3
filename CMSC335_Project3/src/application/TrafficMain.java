@@ -6,10 +6,13 @@
 
 package application;
 	
+import javafx.animation.*;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,6 +22,8 @@ import javafx.fxml.*;
 
 
 public class TrafficMain extends Application {
+	private Controller controller;
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -27,13 +32,16 @@ public class TrafficMain extends Application {
 //			ImageView car = new ImageView(new Image(getClass().getResourceAsStream("car.png")));
 //			root.getChildren().add(car);
 			
-			Parent root = FXMLLoader.load(getClass().getResource("/View.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/View.fxml"));
+            Parent root = loader.load();
+            controller = loader.getController();
 			Scene scene = new Scene(root);
 //			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Traffic Control");
 			primaryStage.setResizable(false);
 			primaryStage.show();
+			startTimeline();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -42,4 +50,15 @@ public class TrafficMain extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+	
+	private void startTimeline() {
+        Timeline timeline = new Timeline();
+        KeyFrame keyframe = new KeyFrame(Duration.seconds(1), event -> {
+            controller.updateTime();
+        });
+        timeline.getKeyFrames().add(keyframe);
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+    }
+
 }
