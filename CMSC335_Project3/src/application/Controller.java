@@ -45,7 +45,6 @@ public class Controller implements Initializable{
 	 }
 	
 	public void start() {
-		System.out.println(road.getStartX());
 		translate.play();
 	}
 	
