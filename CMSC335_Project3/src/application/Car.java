@@ -1,5 +1,7 @@
 package application;
 
+import javafx.scene.image.*;
+
 public class Car {
 	ImageView car;
 	
