@@ -11,7 +11,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.fxml.*;
 //import javafx.scene.layout.*;
 //import java.io.*;
 
@@ -20,13 +22,14 @@ public class TrafficMain extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			TrafficGUI root = new TrafficGUI();
+//			TrafficGUI root = new TrafficGUI();
 //			Group root = new Group();
 //			ImageView car = new ImageView(new Image(getClass().getResourceAsStream("car.png")));
 //			root.getChildren().add(car);
 			
-			Scene scene = new Scene(root,900,400);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			Parent root = FXMLLoader.load(getClass().getResource("/View.fxml"));
+			Scene scene = new Scene(root);
+//			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Traffic Control");
 			primaryStage.setResizable(false);
