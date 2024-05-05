@@ -3,8 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -16,12 +14,12 @@
    <left>
       <VBox fx:id="vBox" prefHeight="400.0" prefWidth="190.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="title_label" alignment="CENTER" prefHeight="63.0" prefWidth="176.0" text="Traffic Display">
+            <Label fx:id="title_label" alignment="CENTER" prefHeight="48.0" prefWidth="170.0" text="Traffic Display">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <Label fx:id="timeDisplay" alignment="CENTER" prefHeight="34.0" prefWidth="169.0" text="Time Display" />
+            <Label fx:id="timeDisplay" alignment="CENTER" prefHeight="21.0" prefWidth="180.0" text="Time Display" />
             <Label fx:id="car_1" prefHeight="45.0" prefWidth="200.0" text="Car #1">
                <padding>
                   <Insets left="10.0" />
@@ -44,7 +42,7 @@
                         <Insets left="5.0" right="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="addLight" mnemonicParsing="false" prefHeight="37.0" prefWidth="89.0" text="Add light">
+                  <Button fx:id="addLight" mnemonicParsing="false" onAction="#addLight" prefHeight="37.0" prefWidth="89.0" text="Add light">
                      <HBox.margin>
                         <Insets left="5.0" right="5.0" />
                      </HBox.margin>
@@ -102,11 +100,6 @@
       <Pane fx:id="pane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Line fx:id="road" endX="122.99993896484375" endY="173.0" layoutX="587.0" layoutY="31.0" startX="-587.2070922851562" startY="173.0" />
-            <ImageView fx:id="trafficLight" fitHeight="41.0" fitWidth="34.0" layoutX="176.0" layoutY="139.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@resources/green-light.png" />
-               </image>
-            </ImageView>
          </children>
       </Pane>
    </center>
