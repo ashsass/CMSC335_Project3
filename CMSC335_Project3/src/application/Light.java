@@ -22,6 +22,7 @@ public class Light {
 		light.setLayoutX(x);
 		light.setLayoutY(Y_COORD);
 	}
+	// this maybe should be modified so it can't be accessed or changed? 
 	
 	private void setSize() {
 		light.setFitWidth(24);

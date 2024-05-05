@@ -33,28 +33,15 @@ public class Controller implements Initializable{
 	final Double LIGHT_DIST = 100.0;
 	final Double FIRST_LIGHT_X = 176.0;
 
-	
-	public void addCar() {
-		pane.getChildren().add(car.getCar());
-	}
-	
-	public void addLight() {
-		//176 x 139 y
-		Light light = new Light();
-		if(lightList.size() == 0) { // Check if this is the first light being added
-			light.setPlacement(FIRST_LIGHT_X);
-		}
-		else {
-			double newX = lightList.get(lightList.size() - 1).getLight().getLayoutX();
-			light.setPlacement(newX + LIGHT_DIST);
-		}
-		lightList.add(light); // Add to the array list
-		pane.getChildren().add(light.getLight()); // add to the pane
-	}
 	//need to have it so that if there is a car in this location, need to wait for it to move out of place 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		//Start the GUI with one light and one car
 		addLight();
+		addCar();
+		
+		// Set the animation to the car that is added 
+		// WILL NEED TO HAVE THIS REPEAT SO THAT IT CAN BE DONE MULTIPLE TIMES?
 		translate.setNode(car.getCar());
 		translate.setDuration(Duration.millis(5000));
 		translate.setByX(910);
@@ -63,6 +50,27 @@ public class Controller implements Initializable{
 		updateTime();
 	 }
 	
+
+	// Allow user to add a new car to the GUI
+	public void addCar() {
+		pane.getChildren().add(car.getCar());
+	}
+	
+	// Allow user to add a new light to the GUI
+	public void addLight() {
+		Light light = new Light();
+		if(lightList.size() == 0) { // Check if this is the first light being added
+			light.setPlacement(FIRST_LIGHT_X);
+		}
+		else { // If not find the x coord of the previous light and add 100 to space new light ahead
+			double newX = lightList.get(lightList.size() - 1).getLight().getLayoutX();
+			light.setPlacement(newX + LIGHT_DIST);
+		}
+		lightList.add(light); // Add to the array list
+		pane.getChildren().add(light.getLight()); // add to the pane
+	}
+	
+	// Start the animation using the Start button
 	public void start() {
 		translate.play();
 	}
