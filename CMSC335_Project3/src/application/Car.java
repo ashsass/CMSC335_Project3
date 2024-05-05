@@ -7,13 +7,21 @@ public class Car {
 	
 	public Car() {
 		car = new ImageView(new Image(getClass().getResourceAsStream("/resources/car.png")));
-		car.setFitWidth(30);
-		car.setFitHeight(39);
-		car.setLayoutX(0);
-		car.setLayoutY(175);
+		setSize();
+		setPlacement();
 	}
 	
 	public ImageView getCar() {
 		return car;
+	}
+	
+	private final void setPlacement() {
+		car.setLayoutX(0);
+		car.setLayoutY(180);
+	}
+	
+	private final void setSize() {
+		car.setFitWidth(20);
+		car.setFitHeight(29);
 	}
 }
