@@ -79,6 +79,12 @@ public class Controller implements Initializable{
 		translate.play();
 	}
 	
+	// Pause the animation using the Pause button
+	public void pause() {
+		translate.pause();
+	}
+	
+	// Stop the animation using the Stop button. Should restart the project??
 	public void stop() {
 		translate.stop();
 	}
