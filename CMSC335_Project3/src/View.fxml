@@ -85,7 +85,7 @@
                   <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
                </padding>
             </Button>
-            <Button fx:id="stopBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="90.0" text="Stop">
+            <Button fx:id="stopBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#stop"  prefWidth="90.0" text="Stop">
                <HBox.margin>
                   <Insets right="50.0" top="10.0" />
                </HBox.margin>

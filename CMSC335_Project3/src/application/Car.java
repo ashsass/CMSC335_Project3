@@ -4,9 +4,11 @@ import javafx.scene.image.*;
 
 public class Car {
 	private ImageView car;
+	static int id = 0;
 	
 	public Car() {
 		car = new ImageView(new Image(getClass().getResourceAsStream("/resources/car.png")));
+		id++;
 		setSize();
 		setPlacement();
 	}

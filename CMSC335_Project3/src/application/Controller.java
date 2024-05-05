@@ -23,12 +23,12 @@ public class Controller implements Initializable{
 	@FXML
 	private Line road;
 	
-//	ArrayList<Car> carList = new ArrayList<>();
-	Car car = new Car();
-	TranslateTransition translate = new TranslateTransition();
-	
+	ArrayList<Car> carList = new ArrayList<>();
+//	Car car = new Car();
 	ArrayList<Light> lightList = new ArrayList<>();
 	// might change this to map so i can access lights? probably need to be able to identify the lights when the cars are next to them
+	
+	TranslateTransition translate = new TranslateTransition();
 	
 	final Double LIGHT_DIST = 100.0;
 	final Double FIRST_LIGHT_X = 176.0;
@@ -42,9 +42,9 @@ public class Controller implements Initializable{
 		
 		// Set the animation to the car that is added 
 		// WILL NEED TO HAVE THIS REPEAT SO THAT IT CAN BE DONE MULTIPLE TIMES?
-		translate.setNode(car.getCar());
-		translate.setDuration(Duration.millis(5000));
-		translate.setByX(910);
+//		translate.setNode(car.getCar());
+//		translate.setDuration(Duration.millis(5000));
+//		translate.setByX(910);
 		
 		// Call updateTime to set the keyframe timeline animation to display time
 		updateTime();
@@ -53,6 +53,10 @@ public class Controller implements Initializable{
 
 	// Allow user to add a new car to the GUI
 	public void addCar() {
+		Car car = new Car();
+		translate.setNode(car.getCar());
+		translate.setDuration(Duration.millis(5000));
+		translate.setByX(910);
 		pane.getChildren().add(car.getCar());
 	}
 	
@@ -73,6 +77,10 @@ public class Controller implements Initializable{
 	// Start the animation using the Start button
 	public void start() {
 		translate.play();
+	}
+	
+	public void stop() {
+		translate.stop();
 	}
 	
 	// Update the time display
