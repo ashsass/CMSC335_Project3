@@ -41,7 +41,7 @@ public class TrafficMain extends Application {
 			primaryStage.setTitle("Traffic Control");
 			primaryStage.setResizable(false);
 			primaryStage.show();
-			startTimeline();
+			controller.startTimeline();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -51,14 +51,6 @@ public class TrafficMain extends Application {
 		launch(args);
 	}
 	
-	private void startTimeline() {
-        Timeline timeline = new Timeline();
-        KeyFrame keyframe = new KeyFrame(Duration.seconds(1), event -> {
-            controller.updateTime();
-        });
-        timeline.getKeyFrames().add(keyframe);
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
-    }
+	
 
 }

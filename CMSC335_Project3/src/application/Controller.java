@@ -22,12 +22,62 @@ public class Controller implements Initializable{
 	@FXML
 	private Line road;
 	
+	private String timeText;
+	
 	ArrayList<Car> carList = new ArrayList<>();
 //	Car car = new Car();
 	ArrayList<Light> lightList = new ArrayList<>();
 	// might change this to map so i can access lights? probably need to be able to identify the lights when the cars are next to them
 	
 //	ExecutorService executor = Executors.newCachedThreadPool();
+	ExecutorService executor = Executors.newSingleThreadExecutor();
+	
+	
+	
+	
+	/* Time Methods */
+	public void startTimeline() {
+        Timeline timeline = new Timeline();
+        KeyFrame keyframe = new KeyFrame(Duration.seconds(1), event -> {
+            timeDisplay.setText(printTime());
+        });
+        timeline.getKeyFrames().add(keyframe);
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+    }
+	
+	Future<String> timeFuture = executor.submit(new Callable<String>() {
+		public String call() throws Exception {
+			System.out.println(String.format("starting expensive task thread %s", 
+		        Thread.currentThread().getName()));
+		    String returnedValue = printTime();
+
+		    return returnedValue;
+		  } 
+		});
+	
+		// Update the time display
+//	public void updateTime() {
+//		timeDisplay.setText(printTime());
+//	}
+	
+//	public String updateTime() {
+//		return printTime();
+//	}
+	
+	public static String printTime() {
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("h:mm:ss a",
+				Locale.getDefault());
+      LocalDateTime ldt = LocalDateTime.now();
+      return dtf.format(ldt);
+	}
+	
+	
+	/* Time Methods ends */
+	
+	
+	
+	
 	
 	ArrayList<TranslateTransition> translateList = new ArrayList<>();
 //	TranslateTransition translate = new TranslateTransition();
@@ -41,6 +91,13 @@ public class Controller implements Initializable{
 		//Start the GUI with one light and one car
 		addLight();
 		addCar();
+		try {
+			timeText = timeFuture.get();
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		
 		
 		// Set the animation to the car that is added 
 		// WILL NEED TO HAVE THIS REPEAT SO THAT IT CAN BE DONE MULTIPLE TIMES?
@@ -49,13 +106,17 @@ public class Controller implements Initializable{
 //		translate.setByX(910);
 		
 		// Call updateTime to set the keyframe timeline animation to display time
-		updateTime();
+		Platform.runLater(() -> {
+			startTimeline();
+		});
 	 }
 	
 	public void asyncAddCar() {
 //		System.out.println("asyncAddCar called");
 //		Future<?> future = executor.submit(() -> addCar());
-		Platform.runLater(() -> addCar());
+		Platform.runLater(() -> {
+			addCar();
+		});
 	}
 
 	// Allow user to add a new car to the GUI
@@ -120,18 +181,6 @@ public class Controller implements Initializable{
 	public void stop() {
 		for(TranslateTransition e: translateList)
 			e.stop();
-	}
-	
-	// Update the time display
-    public void updateTime() {
-        timeDisplay.setText(printTime());
-    }
-	
-	public static String printTime() {
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("h:mm:ss a",
-				Locale.getDefault());
-        LocalDateTime ldt = LocalDateTime.now();
-        return dtf.format(ldt);
 	}
 }
 	
