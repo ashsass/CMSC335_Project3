@@ -40,19 +40,19 @@ public class TrafficMain extends Application {
 			
 			primaryStage.setOnCloseRequest(e -> {
 				try {
-					System.out.println("Close request sent");
-					controller.executor.shutdownNow();
-					if (!controller.executor.awaitTermination(5, TimeUnit.SECONDS)) {
-						System.out.println("normal shut down didn't work, in the conditional to await termination");
-	                    controller.executor.shutdownNow();
+//					System.out.println("Close request sent");
+					controller.executorTime.shutdownNow();
+					if (!controller.executorTime.awaitTermination(5, TimeUnit.SECONDS)) {
+//						System.out.println("normal shut down didn't work, in the conditional to await termination");
+	                    controller.executorTime.shutdownNow();
 	                }
 				}
 				catch(Exception ex) {
 					ex.printStackTrace();
 				}
-				finally {
-					System.out.println(controller.executor.isTerminated() ? "executor is terminated" : "executor did not terminate properly");
-				}
+//				finally {
+//					System.out.println(controller.executorTime.isTerminated() ? "executor is terminated" : "executor did not terminate properly");
+//				}
 			});
 			
 			primaryStage.show();

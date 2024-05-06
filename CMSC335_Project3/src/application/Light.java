@@ -14,7 +14,7 @@ public class Light {
 	 	* [1] = yellow light
 	 	* [2] = green light
 	 */
-	private int imageIndex = initializeLight();
+	public int imageIndex = initializeLight();
 	
 	// Light's ImageView set using the initializeLight to randomly pull a light image from the array
 	public Light() {
@@ -53,16 +53,8 @@ public class Light {
 		// If the light starts on red -> green -> yellow -> red
 		// So on an so forth
 		// Maybe make it recursive?
-	public ImageView setNewLight() {
-		imageIndex++;
-		if(imageIndex == 3) {
-			imageIndex = 0; // want to reset this
-			// but makes the class even further mutable maybe want to figure out a safer way to do this
-			// maybe call a new object - Light(new ImageView?)
-		}
-		return new ImageView(
-				new Image(
-						getClass()
-						.getResourceAsStream(lightImages[imageIndex])));
+	public void setNewImage() {
+		imageIndex = (imageIndex + 1) % lightImages.length; 
+	    light.setImage(new Image(getClass().getResourceAsStream(lightImages[imageIndex])));
 	}
 }
