@@ -25,7 +25,12 @@ public class Controller implements Initializable{
 	
 	/* Instance variables */
 	private String timeText; //This string will be updates using the executor
-	private ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+	
+	// Had to make this public to be accessed through TrafficMain - could maybe use a method and keep it private?
+	public ScheduledExecutorService executorTime = Executors.newSingleThreadScheduledExecutor();
+	public ScheduledExecutorService executorLight = Executors.newScheduledThreadPool(5);
+	
+	
 	private ArrayList<Car> carList = new ArrayList<>();
 	private ArrayList<Light> lightList = new ArrayList<>();
 	private ArrayList<TranslateTransition> translateList = new ArrayList<>();
@@ -43,13 +48,26 @@ public class Controller implements Initializable{
 		
 		// Executor updates the timeText String in a background thread
 		// Platform updates the UI appropriately in JavaFX every second
-		executor.scheduleAtFixedRate(() -> {
+		executorTime.scheduleAtFixedRate(() -> {
 			timeText = printTime();
 			Platform.runLater(() -> {
 				startTimeline();
 			});
 		}, 0, 1, TimeUnit.SECONDS);
+		
+		executorLight.scheduleAtFixedRate(() -> {
+			Platform.runLater(() -> {
+				for(Light light: lightList) {
+					light.setNewImage();
+				}
+			});
+		}, 0, 3, TimeUnit.SECONDS);
 	}
+	
+	
+	
+	
+	
 	
 	// Use Platform to appropriately populate the JavaFX UI
 	// Probably need to figure something out with this so that the objects are created and held in the background? Only want 5 to be at the starting point at any time 
@@ -101,6 +119,13 @@ public class Controller implements Initializable{
 		translate.setByX(910);
 	}
 	
+	
+	
+	
+	
+	
+	
+	
 	// Allow user to add a new light to the GUI
 	public void addLight() {
 		Light light = new Light();
@@ -120,6 +145,13 @@ public class Controller implements Initializable{
 		pane.getChildren().add(light.getLight());
 	}
 	
+	
+	
+	
+	
+	
+	
+	
 	// Start the animation using the Start button
 	// Should this only work so long as the program has just initiated?
 	public void start() {
@@ -136,8 +168,8 @@ public class Controller implements Initializable{
 	
 	// Continue the animation after using the Pause button
 	// So this needs to be used instead of play button after pause?
-	public void continue() {
-		
+	public void cont() {
+		System.out.println("need to add code");
 	}
 	
 	// Stop the animation using the Stop button. 
@@ -146,6 +178,13 @@ public class Controller implements Initializable{
 		for(TranslateTransition e: translateList)
 			e.stop();
 	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	public void startTimeline() {
