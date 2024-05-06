@@ -30,7 +30,7 @@ public class Controller implements Initializable{
 	// might change this to map so i can access lights? probably need to be able to identify the lights when the cars are next to them
 	
 //	ExecutorService executor = Executors.newCachedThreadPool();
-	ExecutorService executor = Executors.newSingleThreadExecutor();
+	ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 	
 	
 	
@@ -39,22 +39,30 @@ public class Controller implements Initializable{
 	public void startTimeline() {
         Timeline timeline = new Timeline();
         KeyFrame keyframe = new KeyFrame(Duration.seconds(1), event -> {
-            timeDisplay.setText(printTime());
+            timeDisplay.setText(timeText);
         });
         timeline.getKeyFrames().add(keyframe);
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
 	
-	Future<String> timeFuture = executor.submit(new Callable<String>() {
-		public String call() throws Exception {
-			System.out.println(String.format("starting expensive task thread %s", 
-		        Thread.currentThread().getName()));
-		    String returnedValue = printTime();
-
-		    return returnedValue;
-		  } 
-		});
+//	Future<String> timeFuture = executor.submit(new Callable<String>() {
+//		public String call() throws Exception {
+//			System.out.println(String.format("starting expensive task thread %s", 
+//		        Thread.currentThread().getName()));
+//		    String returnedValue = printTime();
+//
+//		    return returnedValue;
+//		  } 
+//		});
+	
+	
+//	executor.scheduleAtFixedRate(() -> {
+//		timeText = printTime();
+//		Platform.runLater(() -> {
+//			startTimeline();
+//		});
+//	}, 0, 1, 1000);
 	
 		// Update the time display
 //	public void updateTime() {
@@ -91,12 +99,18 @@ public class Controller implements Initializable{
 		//Start the GUI with one light and one car
 		addLight();
 		addCar();
-		try {
-			timeText = timeFuture.get();
-		}
-		catch(Exception ex) {
-			ex.printStackTrace();
-		}
+		executor.scheduleAtFixedRate(() -> {
+			timeText = printTime();
+			Platform.runLater(() -> {
+				startTimeline();
+			});
+		}, 0, 1, TimeUnit.SECONDS);
+//		try {
+//			timeText = timeFuture.get();
+//		}
+//		catch(Exception ex) {
+//			ex.printStackTrace();
+//		}
 		
 		
 		// Set the animation to the car that is added 
@@ -106,9 +120,9 @@ public class Controller implements Initializable{
 //		translate.setByX(910);
 		
 		// Call updateTime to set the keyframe timeline animation to display time
-		Platform.runLater(() -> {
-			startTimeline();
-		});
+//		Platform.runLater(() -> {
+//			startTimeline();
+//		});
 	 }
 	
 	public void asyncAddCar() {
