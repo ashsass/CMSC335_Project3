@@ -15,6 +15,7 @@ import javafx.scene.shape.Line;
 
 public class Controller implements Initializable{
 	
+	/* FXML Variables */
 	@FXML
 	private Pane pane;
 	@FXML 
@@ -22,40 +23,42 @@ public class Controller implements Initializable{
 	@FXML
 	private Line road;
 	
-	ArrayList<Car> carList = new ArrayList<>();
-//	Car car = new Car();
-	ArrayList<Light> lightList = new ArrayList<>();
-	// might change this to map so i can access lights? probably need to be able to identify the lights when the cars are next to them
-	
-//	ExecutorService executor = Executors.newCachedThreadPool();
-	
-	ArrayList<TranslateTransition> translateList = new ArrayList<>();
+	/* Instance variables */
+	private String timeText; //This string will be updates using the executor
+	private ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+	private ArrayList<Car> carList = new ArrayList<>();
+	private ArrayList<Light> lightList = new ArrayList<>();
+	private ArrayList<TranslateTransition> translateList = new ArrayList<>();
+	private final Double LIGHT_DIST = 100.0;
+	private final Double FIRST_LIGHT_X = 176.0;
 //	TranslateTransition translate = new TranslateTransition();
-	
-	final Double LIGHT_DIST = 100.0;
-	final Double FIRST_LIGHT_X = 176.0;
+//	ExecutorService executor = Executors.newCachedThreadPool();
 
-	//need to have it so that if there is a car in this location, need to wait for it to move out of place 
+	// Start the initial GUI frame in the main JavaFX thread
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		//Start the GUI with one light and one car
+		// Start the GUI with one light and one car
 		addLight();
 		addCar();
 		
-		// Set the animation to the car that is added 
-		// WILL NEED TO HAVE THIS REPEAT SO THAT IT CAN BE DONE MULTIPLE TIMES?
-//		translate.setNode(car.getCar());
-//		translate.setDuration(Duration.millis(5000));
-//		translate.setByX(910);
-		
-		// Call updateTime to set the keyframe timeline animation to display time
-		updateTime();
-	 }
+		// Executor updates the timeText String in a background thread
+		// Platform updates the UI appropriately in JavaFX every second
+		executor.scheduleAtFixedRate(() -> {
+			timeText = printTime();
+			Platform.runLater(() -> {
+				startTimeline();
+			});
+		}, 0, 1, TimeUnit.SECONDS);
+	}
 	
+	// Use Platform to appropriately populate the JavaFX UI
+	// Probably need to figure something out with this so that the objects are created and held in the background? Only want 5 to be at the starting point at any time 
 	public void asyncAddCar() {
 //		System.out.println("asyncAddCar called");
 //		Future<?> future = executor.submit(() -> addCar());
-		Platform.runLater(() -> addCar());
+		Platform.runLater(() -> {
+			addCar();
+		});
 	}
 
 	// Allow user to add a new car to the GUI
@@ -69,41 +72,56 @@ public class Controller implements Initializable{
 		//Add to array list and determine place to put it
 		if(carList.size() > 0) {
 //			System.out.println("car list is not empty");
+			// Finds the place of the last car put on the UI and sets the next car behind it
 			car.setXPlacement(carList.get(carList.size() - 1).getCar().getLayoutX() - car.getCar().getFitWidth());
 		} else
+			// If the list is empty place the new car at the beginning point
 			car.setXPlacement(0.0);
 //		System.out.println("Placement of car " + Car.id + " is x: " + car.getCar().getLayoutX() + " and y: " + car.getCar().getLayoutY());
 		
+		// Add new car to the ArrayList to keep track of the cars
+		// May not end up needing to do this when I make this on it's own thread
 		carList.add(car);
+		
+		// Add the car to the pane
+		// Need to use getCar method to access the ImageView associate with the Car class
 		pane.getChildren().add(car.getCar());
 	}
 	
+	// Create the animation movement of each car
 	private void carMovement(Car car) {
 //		System.out.println("carMovement called for car " + Car.id);
 		TranslateTransition translate = new TranslateTransition();
+		// Add the translation to the ArrayList to keep track of them 
+		// May not end up needing to do this?
 		translateList.add(translate);
 		translate.setNode(car.getCar());
 		translate.setDuration(Duration.millis(9000));
+		// setByX is hard coded to go slightly beyond the parameters of the scene window
 		translate.setByX(910);
 	}
 	
 	// Allow user to add a new light to the GUI
 	public void addLight() {
 		Light light = new Light();
-		if(lightList.size() == 0) { // Check if this is the first light being added
+		// Check if this is the first light being added
+		if(lightList.size() == 0) { 
 			light.setPlacement(FIRST_LIGHT_X);
 		}
 		else { 
-			// If not first light then find the x coord	 of the previous light and 
+			// If not first light then find the x coord of the previous light and 
 			// add 100 to space new light ahead
 			double newX = lightList.get(lightList.size() - 1).getLight().getLayoutX();
 			light.setPlacement(newX + LIGHT_DIST);
 		}
-		lightList.add(light); // Add to the array list
-		pane.getChildren().add(light.getLight()); // add to the pane
+		// Add to the array list
+		lightList.add(light); 
+		// Add to the pane
+		pane.getChildren().add(light.getLight());
 	}
 	
 	// Start the animation using the Start button
+	// Should this only work so long as the program has just initiated?
 	public void start() {
 		for(TranslateTransition e: translateList)
 			e.play();
@@ -116,23 +134,47 @@ public class Controller implements Initializable{
 			e.pause();
 	}
 	
-	// Stop the animation using the Stop button. Should restart the project??
+	// Continue the animation after using the Pause button
+	// So this needs to be used instead of play button after pause?
+	public void continue() {
+		
+	}
+	
+	// Stop the animation using the Stop button. 
+	// Should restart the project?? and then play can be used after stop has been used
 	public void stop() {
 		for(TranslateTransition e: translateList)
 			e.stop();
 	}
 	
-	// Update the time display
-    public void updateTime() {
-        timeDisplay.setText(printTime());
+	
+	public void startTimeline() {
+        Timeline timeline = new Timeline();
+        KeyFrame keyframe = new KeyFrame(Duration.seconds(1), event -> {
+            timeDisplay.setText(timeText);
+        });
+        timeline.getKeyFrames().add(keyframe);
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
     }
 	
+	
+	// Update the timeText string to then display the time on a label 
 	public static String printTime() {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("h:mm:ss a",
 				Locale.getDefault());
-        LocalDateTime ldt = LocalDateTime.now();
-        return dtf.format(ldt);
+      LocalDateTime ldt = LocalDateTime.now();
+      return dtf.format(ldt);
 	}
+	
+	// Update the time display
+//	public void updateTime() {
+//		timeDisplay.setText(printTime());
+//	}
+	
+//	public String updateTime() {
+//		return printTime();
+//	}
 }
 	
 	
