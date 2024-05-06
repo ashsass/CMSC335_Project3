@@ -25,7 +25,9 @@ public class Controller implements Initializable{
 	
 	/* Instance variables */
 	private String timeText; //This string will be updates using the executor
-	private ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+	
+	// Had to make this public to be accessed through TrafficMain - could maybe use a method and keep it private?
+	public ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 	private ArrayList<Car> carList = new ArrayList<>();
 	private ArrayList<Light> lightList = new ArrayList<>();
 	private ArrayList<TranslateTransition> translateList = new ArrayList<>();
@@ -136,8 +138,8 @@ public class Controller implements Initializable{
 	
 	// Continue the animation after using the Pause button
 	// So this needs to be used instead of play button after pause?
-	public void continue() {
-		
+	public void cont() {
+		System.out.println("need to add code");
 	}
 	
 	// Stop the animation using the Stop button. 

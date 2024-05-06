@@ -6,6 +6,8 @@
 
 package application;
 	
+import java.util.concurrent.TimeUnit;
+
 import javafx.animation.*;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -40,6 +42,24 @@ public class TrafficMain extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Traffic Control");
 			primaryStage.setResizable(false);
+			
+			primaryStage.setOnCloseRequest(e -> {
+				try {
+					System.out.println("Close request sent");
+					controller.executor.shutdownNow();
+					if (!controller.executor.awaitTermination(5, TimeUnit.SECONDS)) {
+						System.out.println("normal shut down didn't work, in the conditional to await termination");
+	                    controller.executor.shutdownNow();
+	                }
+				}
+				catch(Exception ex) {
+					ex.printStackTrace();
+				}
+				finally {
+					System.out.println(controller.executor.isTerminated() ? "executor is terminated" : "executor did not terminate properly");
+				}
+			});
+			
 			primaryStage.show();
 			controller.startTimeline();
 		} catch(Exception e) {
