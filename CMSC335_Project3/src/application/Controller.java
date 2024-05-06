@@ -69,7 +69,7 @@ public class Controller implements Initializable{
 		//Add to array list and determine place to put it
 		if(carList.size() > 0) {
 //			System.out.println("car list is not empty");
-			car.setXPlacement(carList.get(carList.size() - 1).getCar().getLayoutX() + car.getCar().getFitWidth());
+			car.setXPlacement(carList.get(carList.size() - 1).getCar().getLayoutX() - car.getCar().getFitWidth());
 		} else
 			car.setXPlacement(0.0);
 //		System.out.println("Placement of car " + Car.id + " is x: " + car.getCar().getLayoutX() + " and y: " + car.getCar().getLayoutY());
@@ -107,16 +107,19 @@ public class Controller implements Initializable{
 	public void start() {
 		for(TranslateTransition e: translateList)
 			e.play();
+		carList.clear();
 	}
 	
 	// Pause the animation using the Pause button
 	public void pause() {
-//		translate.pause();
+		for(TranslateTransition e: translateList)
+			e.pause();
 	}
 	
 	// Stop the animation using the Stop button. Should restart the project??
 	public void stop() {
-//		translate.stop();
+		for(TranslateTransition e: translateList)
+			e.stop();
 	}
 	
 	// Update the time display
