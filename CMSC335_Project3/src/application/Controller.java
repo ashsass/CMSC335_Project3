@@ -91,7 +91,7 @@ public class Controller implements Initializable{
 	}
 	
 	
-	public void updateCarPosition(Car car) {
+	private void updateCarPosition(Car car) {
 		for(Light light: lightList) {
 			double lightPos = light.getLight().getLayoutX();
 			double carPos = car.translate.getNode().getTranslateX();
@@ -104,7 +104,7 @@ public class Controller implements Initializable{
 	}
 	
 	// Allow user to add a new car to the GUI
-	public void addCar() {
+	private void addCar() {
 		Car car = new Car();
 		translateList.add(car.translate);
 		
@@ -123,7 +123,7 @@ public class Controller implements Initializable{
 	}
 	
 	// Allow user to add a new light to the GUI
-	public void addLight() {
+	private void addLight() {
 		Light light = new Light();
 		// Check if this is the first light being added
 		if(lightList.size() == 0)
@@ -141,29 +141,29 @@ public class Controller implements Initializable{
 	}
 	
 	// Start the animation using the Start button
-	public void start() {
+	private void start() {
 		for(TranslateTransition e: translateList)
 			e.play();
 	}
 	
 	// Pause the animation using the Pause button
-	public void pause() {
+	private void pause() {
 		for(TranslateTransition e: translateList)
 			e.pause();
 	}
 	
 	// Continue the animation after using the Pause button
-	public void cont() {
+	private void cont() {
 		start();
 	}
 	
 	// Stop the animation using the Stop button. 
-	public void stop() {
+	private void stop() {
 		for(TranslateTransition e: translateList)
 			e.stop();
 	}
 	
-	public void startTimeline() {
+	protected void startTimeline() {
         Timeline timeline = new Timeline();
         KeyFrame keyframe = new KeyFrame(Duration.seconds(1), event -> {
             timeDisplay.setText(timeText);
@@ -174,7 +174,7 @@ public class Controller implements Initializable{
     }
 	
 	// Update the timeText string to then display the time on a label 
-	public static String printTime() {
+	private static String printTime() {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("h:mm:ss a",
 				Locale.getDefault());
       LocalDateTime ldt = LocalDateTime.now();
@@ -182,18 +182,18 @@ public class Controller implements Initializable{
 	}
 	
 	// Format the X coordinate of a car as a string
-	public static String getXLocation(Car car) {
+	private static String getXLocation(Car car) {
 		return String.format("%.2f", car.translate.getNode().getTranslateX());
 	}
 	
 	// Properly display the car number and it's x coordinate
-	public String displayCarPosition(Car car) {
+	private String displayCarPosition(Car car) {
 //		return String.format("Car #%s: %s", car.getID(), getXLocation(car));
 		return String.format(" %s", getXLocation(car));
 	}
 	
 	// Create a new label for each car added
-	public void addCarLabel(Car car) {
+	private void addCarLabel(Car car) {
 		Label label = new Label();
 		carLocationList.add(label);
 		vBox.getChildren().add(vboxChildIndex, label);
