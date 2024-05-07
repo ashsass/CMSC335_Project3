@@ -83,7 +83,7 @@ public class Controller implements Initializable{
 				if(carLocationList.size() > 0) {
 					for(Label label: carLocationList) {
 						// Uses the index of label to grab the same car in the carList
-						label.setText(displayCarPosition(carList.get(carLocationList.indexOf(label))));
+						label.setText("Car #" + carLocationList.indexOf(label) + " " + displayCarPosition(carList.get(carLocationList.indexOf(label))));
 					}
 				}
 			});
@@ -94,7 +94,8 @@ public class Controller implements Initializable{
 	public void updateCarPosition(Car car) {
 		for(Light light: lightList) {
 			// If the car is right before a light then the animation pauses
-			if(car.translate.getNode().getTranslateX() > (light.getLight().getLayoutX()) - 20 &&
+			if((car.translate.getNode().getTranslateX() > (light.getLight().getLayoutX()) - 20 &&
+					car.translate.getNode().getTranslateX() < light.getLight().getLayoutX()) &&
 					light.isRed()) 
 						car.translate.pause();
 			else if(car.translate.getNode().getTranslateX() > (light.getLight().getLayoutX()) - 20 &&
@@ -151,13 +152,11 @@ public class Controller implements Initializable{
 	}
 	
 	// Continue the animation after using the Pause button
-	// So this needs to be used instead of play button after pause?
 	public void cont() {
-		System.out.println("need to add code");
+		start();
 	}
 	
 	// Stop the animation using the Stop button. 
-	// Should restart the project?? and then play can be used after stop has been used
 	public void stop() {
 		for(TranslateTransition e: translateList)
 			e.stop();
@@ -188,13 +187,13 @@ public class Controller implements Initializable{
 	
 	// Properly display the car number and it's x coordinate
 	public String displayCarPosition(Car car) {
-		return String.format("Car #%s: %s", car.getID(), getXLocation(car));
+//		return String.format("Car #%s: %s", car.getID(), getXLocation(car));
+		return String.format(" %s", getXLocation(car));
 	}
 	
 	// Create a new label for each car added
 	public void addCarLabel(Car car) {
-		String labelString = "Car #" + car.getID();
-		Label label = new Label(labelString);
+		Label label = new Label();
 		carLocationList.add(label);
 		vBox.getChildren().add(vboxChildIndex, label);
 		vboxChildIndex++;
