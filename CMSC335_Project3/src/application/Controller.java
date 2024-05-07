@@ -29,6 +29,7 @@ public class Controller implements Initializable{
 	// Had to make this public to be accessed through TrafficMain - could maybe use a method and keep it private?
 	public ScheduledExecutorService executorTime = Executors.newSingleThreadScheduledExecutor();
 	public ScheduledExecutorService executorLight = Executors.newScheduledThreadPool(5);
+	public ScheduledExecutorService executorCar = Executors.newScheduledThreadPool(5);
 	
 	
 	private ArrayList<Car> carList = new ArrayList<>();
@@ -44,7 +45,9 @@ public class Controller implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// Start the GUI with one light and one car
 		addLight();
-		addCar();
+		Platform.runLater(() -> {
+			addCar();
+		});
 		
 		// Executor updates the timeText String in a background thread
 		// Platform updates the UI appropriately in JavaFX every second
@@ -62,39 +65,76 @@ public class Controller implements Initializable{
 				}
 			});
 		}, 0, 3, TimeUnit.SECONDS);
+		
+		executorCar.scheduleAtFixedRate(() -> {
+//			Platform.runLater(() -> {
+//				addCar();
+//				if(carList.size() > 0)
+//					System.out.println(carList.get(0).translate.getNode().getTranslateX());
+//					System.out.println(carList.get(0).translate.getByX());
+//			});
+			for(Car car: carList) {
+//				System.out.println(car.translate.getNode().getTranslateX());
+				updateCarPosition(car);
+			}
+//			
+		}, 0, 100, TimeUnit.MILLISECONDS);
 	}
 	
 	
 	
-	
+	public void updateCarPosition(Car car) {
+		for(Light light: lightList) {
+//			System.out.println(car.translate.getNode().getTranslateX());
+			if(car.translate.getNode().getTranslateX() > (light.getLight().getLayoutX()) - 20 &&
+					light.isRed()) {
+						car.translate.stop();
+//		Platform.runLater(() -> {
+//			if((car.getCar().getLayoutX() > light.getLight().getLayoutX() - 10 &&
+//					car.getCar().getLayoutX() < light.getLight().getLayoutX()) &&
+//					light.isRed()) {
+//				System.out.println("in the updateCarPosition conditional");
+				
+//				car.getCar().setLayoutX(light.getLight().getLayoutX());
+			}
+//		});
+			
+		}
+		
+	}
 	
 	
 	// Use Platform to appropriately populate the JavaFX UI
 	// Probably need to figure something out with this so that the objects are created and held in the background? Only want 5 to be at the starting point at any time 
-	public void asyncAddCar() {
+//	public void asyncAddCar() {
 //		System.out.println("asyncAddCar called");
 //		Future<?> future = executor.submit(() -> addCar());
-		Platform.runLater(() -> {
-			addCar();
-		});
-	}
+//		Platform.runLater(() -> {
+//			addCar();
+//		});
+//	}
 
 	// Allow user to add a new car to the GUI
+	// WANT TO ADD THIS TO CAR CLASS BUT PROBLEM IS NEED TO ACCESS OTHER  CARS MAYBE USE THE ARRAYLIST STILL TO KEEP TRACK OF OTHER CARS BUT MAKE IT STATIC SO THAT THERE IS ONE AND IT GETS UPDATED THROUGHOUT THE LIFETIME OF THE CLASS
 	public void addCar() {
 //		System.out.println("addCar called");
 		Car car = new Car();
+		translateList.add(car.translate);
 		
 		// Set animation parameters
-		carMovement(car);
+//		carMovement(car);
 		
 		//Add to array list and determine place to put it
 		if(carList.size() > 0) {
-//			System.out.println("car list is not empty");
 			// Finds the place of the last car put on the UI and sets the next car behind it
 			car.setXPlacement(carList.get(carList.size() - 1).getCar().getLayoutX() - car.getCar().getFitWidth());
-		} else
+//			System.out.println(carList.get(carList.size() - 1).getCar().getLayoutX());
+//			System.out.println(car.getCar().getFitWidth());
+		} else {
 			// If the list is empty place the new car at the beginning point
+			System.out.println("no cars in the list yet");
 			car.setXPlacement(0.0);
+		}
 //		System.out.println("Placement of car " + Car.id + " is x: " + car.getCar().getLayoutX() + " and y: " + car.getCar().getLayoutY());
 		
 		// Add new car to the ArrayList to keep track of the cars
@@ -107,17 +147,18 @@ public class Controller implements Initializable{
 	}
 	
 	// Create the animation movement of each car
-	private void carMovement(Car car) {
-//		System.out.println("carMovement called for car " + Car.id);
-		TranslateTransition translate = new TranslateTransition();
-		// Add the translation to the ArrayList to keep track of them 
-		// May not end up needing to do this?
-		translateList.add(translate);
-		translate.setNode(car.getCar());
-		translate.setDuration(Duration.millis(9000));
-		// setByX is hard coded to go slightly beyond the parameters of the scene window
-		translate.setByX(910);
-	}
+//	private void carMovement(Car car) {
+////		System.out.println("carMovement called for car " + Car.id);
+////		TranslateTransition translate = new TranslateTransition();
+//		
+//		// Add the translation to the ArrayList to keep track of them 
+//		// May not end up needing to do this?
+//		translateList.add(car.translate);
+//		car.translate.setNode(car.getCar());
+//		car.translate.setDuration(Duration.millis(9000));
+//		// setByX is hard coded to go slightly beyond the parameters of the scene window
+//		car.translate.setByX(910);
+//	}
 	
 	
 	
@@ -141,11 +182,10 @@ public class Controller implements Initializable{
 		}
 		// Add to the array list
 		lightList.add(light); 
+//		System.out.println(light.getLight().getLayoutX());
 		// Add to the pane
 		pane.getChildren().add(light.getLight());
 	}
-	
-	
 	
 	
 	
@@ -157,7 +197,7 @@ public class Controller implements Initializable{
 	public void start() {
 		for(TranslateTransition e: translateList)
 			e.play();
-		carList.clear();
+//		carList.clear();
 	}
 	
 	// Pause the animation using the Pause button

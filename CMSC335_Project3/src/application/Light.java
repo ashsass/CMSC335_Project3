@@ -15,6 +15,7 @@ public class Light {
 	 	* [2] = green light
 	 */
 	public int imageIndex = initializeLight();
+//	public int imageIndex = 0;
 	
 	// Light's ImageView set using the initializeLight to randomly pull a light image from the array
 	public Light() {
@@ -56,5 +57,9 @@ public class Light {
 	public void setNewImage() {
 		imageIndex = (imageIndex + 1) % lightImages.length; 
 	    light.setImage(new Image(getClass().getResourceAsStream(lightImages[imageIndex])));
+	}
+	
+	public boolean isRed() {
+		return imageIndex == 0;
 	}
 }

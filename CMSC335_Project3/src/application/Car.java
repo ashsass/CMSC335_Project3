@@ -1,14 +1,20 @@
 package application;
 
+import javafx.util.*;
+import javafx.animation.*;
 import javafx.scene.image.*;
 
 public class Car {
 	private ImageView car;
-	static int id = 0;
+	public TranslateTransition translate;
+//	static int id = 0;
 	
 	public Car() {
 		car = new ImageView(new Image(getClass().getResourceAsStream("/resources/car.png")));
-		id++; // Increment id so it coordinates with the number of car objects in the program
+		translate = new TranslateTransition(Duration.millis(9000), car);
+//		id++; // Increment id so it coordinates with the number of car objects in the program
+		translate.setCycleCount(1);
+		translate.setToX(910);
 		setYPlacement();
 		setSize();
 //		System.out.println("car constructor called, car id is " + id);
@@ -25,6 +31,7 @@ public class Car {
 	
 	public void setXPlacement(Double x) {
 		car.setLayoutX(x);
+//		translate.setFromX(x);
 	} // may want to make this private to keep it immutable?
 	
 	private final void setSize() {
