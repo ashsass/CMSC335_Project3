@@ -86,7 +86,8 @@ public class Controller implements Initializable{
 			Platform.runLater(() -> {
 				if(carLocationList.size() > 0) {
 					for(Label label: carLocationList) {
-						label.setText(getXLocation(carList.get(carLocationList.indexOf(label))));
+						// Uses the index of label to grab the same car in the carList
+						label.setText(displayCarPosition(carList.get(carLocationList.indexOf(label))));
 					}
 				}
 			});
@@ -199,14 +200,17 @@ public class Controller implements Initializable{
       return dtf.format(ldt);
 	}
 	
+	// Format the X coordinate of a car as a string
 	public static String getXLocation(Car car) {
 		return String.format("%.2f", car.translate.getNode().getTranslateX());
 	}
 	
-	public void displayCarPosition() {
-		
+	// Properly display the car number and it's x coordinate
+	public String displayCarPosition(Car car) {
+		return String.format("Car #%s: %s", car.getID(), getXLocation(car));
 	}
 	
+	// Create a new label for each car added
 	public void addCarLabel(Car car) {
 		String labelString = "Car #" + car.getID();
 		Label label = new Label(labelString);
