@@ -83,7 +83,7 @@ public class Controller implements Initializable{
 				if(carLocationList.size() > 0) {
 					for(Label label: carLocationList) {
 						// Uses the index of label to grab the same car in the carList
-						label.setText("Car #" + carLocationList.indexOf(label) + " " + displayCarPosition(carList.get(carLocationList.indexOf(label))));
+						label.setText("Car #" + (carLocationList.indexOf(label) + 1) + " " + displayCarPosition(carList.get(carLocationList.indexOf(label))));
 					}
 				}
 			});
@@ -93,13 +93,12 @@ public class Controller implements Initializable{
 	
 	public void updateCarPosition(Car car) {
 		for(Light light: lightList) {
+			double lightPos = light.getLight().getLayoutX();
+			double carPos = car.translate.getNode().getTranslateX();
 			// If the car is right before a light then the animation pauses
-			if((car.translate.getNode().getTranslateX() > (light.getLight().getLayoutX()) - 20 &&
-					car.translate.getNode().getTranslateX() < light.getLight().getLayoutX()) &&
-					light.isRed()) 
-						car.translate.pause();
-			else if(car.translate.getNode().getTranslateX() > (light.getLight().getLayoutX()) - 20 &&
-					!light.isRed()) 
+			if((carPos > (lightPos - 20) && carPos < lightPos) && light.isRed()) 
+				car.translate.pause();
+			else if((carPos > (lightPos - 20) && carPos < lightPos) && !light.isRed()) 
 				car.translate.play();			
 		}	
 	}
@@ -111,9 +110,11 @@ public class Controller implements Initializable{
 		
 		for(Car c: carList) {
 			if(c.translate.getNode().getTranslateX() == 0.0) 
+				// If there is a car in the starting position, place the next car behind it
 				car.setXPlacement(carList.get(carList.size() - 1).getCar().getLayoutX() 
 						- (car.getCar().getFitWidth() + 3));
 			if(carList.size() == 0)
+				// If it is the first car, place it at the start
 				car.setXPlacement(0.0);
 		}
 		carList.add(car);
