@@ -45,9 +45,9 @@ public class Controller implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// Start the GUI with one light and one car
 		addLight();
-		Platform.runLater(() -> {
-			addCar();
-		});
+//		Platform.runLater(() -> {
+//			addCar();
+//		});
 		
 		// Executor updates the timeText String in a background thread
 		// Platform updates the UI appropriately in JavaFX every second
@@ -66,13 +66,13 @@ public class Controller implements Initializable{
 			});
 		}, 0, 3, TimeUnit.SECONDS);
 		
+		executorCar.schedule(() -> {
+			Platform.runLater(() -> {
+				addCar();
+			});
+		}, 0, TimeUnit.SECONDS);
+		
 		executorCar.scheduleAtFixedRate(() -> {
-//			Platform.runLater(() -> {
-//				addCar();
-//				if(carList.size() > 0)
-//					System.out.println(carList.get(0).translate.getNode().getTranslateX());
-//					System.out.println(carList.get(0).translate.getByX());
-//			});
 			for(Car car: carList) {
 //				System.out.println(car.translate.getNode().getTranslateX());
 				updateCarPosition(car);
@@ -88,7 +88,13 @@ public class Controller implements Initializable{
 //			System.out.println(car.translate.getNode().getTranslateX());
 			if(car.translate.getNode().getTranslateX() > (light.getLight().getLayoutX()) - 20 &&
 					light.isRed()) {
-						car.translate.stop();
+						car.translate.pause();
+			}
+			else if(car.translate.getNode().getTranslateX() > (light.getLight().getLayoutX()) - 20 &&
+					!light.isRed()) 
+				car.translate.play();
+//			else
+//				car.translate.play();
 //		Platform.runLater(() -> {
 //			if((car.getCar().getLayoutX() > light.getLight().getLayoutX() - 10 &&
 //					car.getCar().getLayoutX() < light.getLight().getLayoutX()) &&
@@ -96,7 +102,7 @@ public class Controller implements Initializable{
 //				System.out.println("in the updateCarPosition conditional");
 				
 //				car.getCar().setLayoutX(light.getLight().getLayoutX());
-			}
+
 //		});
 			
 		}
@@ -125,21 +131,32 @@ public class Controller implements Initializable{
 //		carMovement(car);
 		
 		//Add to array list and determine place to put it
-		if(carList.size() > 0) {
-			// Finds the place of the last car put on the UI and sets the next car behind it
-			car.setXPlacement(carList.get(carList.size() - 1).getCar().getLayoutX() - car.getCar().getFitWidth());
-//			System.out.println(carList.get(carList.size() - 1).getCar().getLayoutX());
-//			System.out.println(car.getCar().getFitWidth());
-		} else {
+//		if(carList.size() > 0) {
+//			// Finds the place of the last car put on the UI and sets the next car behind it
+//			car.setXPlacement(carList.get(carList.size() - 1).getCar().getLayoutX() - car.getCar().getFitWidth());
+////			System.out.println(carList.get(carList.size() - 1).getCar().getLayoutX());
+////			System.out.println(car.getCar().getFitWidth());
+//		} 
+		
+		for(Car c: carList) {
+			System.out.println(c.translate.getNode().getTranslateX());
+			if(c.translate.getNode().getTranslateX() == 0.0 || carList.size() > 0) {
+				car.setXPlacement(carList.get(carList.size() - 1).getCar().getLayoutX() - car.getCar().getFitWidth());
+			}
+		
+			else {
 			// If the list is empty place the new car at the beginning point
-			System.out.println("no cars in the list yet");
-			car.setXPlacement(0.0);
+//			System.out.println("no cars in the list yet");
+				car.setXPlacement(0.0);
+			}
 		}
+		
+		carList.add(car);
 //		System.out.println("Placement of car " + Car.id + " is x: " + car.getCar().getLayoutX() + " and y: " + car.getCar().getLayoutY());
 		
 		// Add new car to the ArrayList to keep track of the cars
 		// May not end up needing to do this when I make this on it's own thread
-		carList.add(car);
+		
 		
 		// Add the car to the pane
 		// Need to use getCar method to access the ImageView associate with the Car class
