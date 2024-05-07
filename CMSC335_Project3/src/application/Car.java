@@ -34,8 +34,8 @@ public class Car {
 	}
 	
 	private final void setTranslation() {
-		translate = new TranslateTransition(Duration.millis(9000), car);
+		translate = new TranslateTransition(Duration.seconds(12), car);
 		translate.setCycleCount(1);
-		translate.setToX(910);
+		translate.setToX(710);
 	}
 }

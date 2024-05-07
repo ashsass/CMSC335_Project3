@@ -105,11 +105,13 @@ public class Controller implements Initializable{
 		translateList.add(car.translate);
 		
 		for(Car c: carList) {
-			if(c.translate.getNode().getTranslateX() == 0.0 || carList.size() > 0) 
+			if(c.translate.getNode().getTranslateX() == 0.0) 
 				car.setXPlacement(carList.get(carList.size() - 1).getCar().getLayoutX() 
-						- car.getCar().getFitWidth());
-			else 
+						- (car.getCar().getFitWidth() + 3));
+			if(carList.size() == 0)
 				car.setXPlacement(0.0);
+//			else 
+//				car.setXPlacement(0.0);
 		}
 		
 		carList.add(car);
