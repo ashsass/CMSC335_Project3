@@ -37,14 +37,25 @@ public class TrafficMain extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Traffic Control");
 			primaryStage.setResizable(false);
-			
+			primaryStage.show();
+			controller.startTimeline();
 			primaryStage.setOnCloseRequest(e -> {
 				try {
 //					System.out.println("Close request sent");
-					controller.executorTime.shutdownNow();
+					controller.executorTime.shutdown();
+					controller.executorLight.shutdown();
+					controller.executorCar.shutdown();
 					if (!controller.executorTime.awaitTermination(5, TimeUnit.SECONDS)) {
 //						System.out.println("normal shut down didn't work, in the conditional to await termination");
 	                    controller.executorTime.shutdownNow();
+	                }
+					if (!controller.executorLight.awaitTermination(5, TimeUnit.SECONDS)) {
+//						System.out.println("normal shut down didn't work, in the conditional to await termination");
+	                    controller.executorLight.shutdownNow();
+	                }
+					if (!controller.executorCar.awaitTermination(5, TimeUnit.SECONDS)) {
+//						System.out.println("normal shut down didn't work, in the conditional to await termination");
+	                    controller.executorCar.shutdownNow();
 	                }
 				}
 				catch(Exception ex) {
@@ -52,11 +63,10 @@ public class TrafficMain extends Application {
 				}
 //				finally {
 //					System.out.println(controller.executorTime.isTerminated() ? "executor is terminated" : "executor did not terminate properly");
+//					System.out.println(controller.executorLight.isTerminated() ? "executor is terminated" : "executor did not terminate properly");
+//					System.out.println(controller.executorCar.isTerminated() ? "executor is terminated" : "executor did not terminate properly");
 //				}
 			});
-			
-			primaryStage.show();
-			controller.startTimeline();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

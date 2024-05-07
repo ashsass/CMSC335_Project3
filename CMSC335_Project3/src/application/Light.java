@@ -7,7 +7,6 @@ import java.util.Random;
 public class Light {
 	private ImageView light;
 	private final Double Y_COORD = 119.0;
-	private static int id = 0;
 	private String[] lightImages = {"/resources/red-light.png", "/resources/yellow-light.png", "/resources/green-light.png"};
 	/* lightImages index:
 	 	* [0] = red light
@@ -23,7 +22,6 @@ public class Light {
 						getClass()
 						.getResourceAsStream(lightImages[imageIndex])));
 		setSize();
-		id++;
 	}
 	
 	public ImageView getLight() {
@@ -34,7 +32,6 @@ public class Light {
 		light.setLayoutX(x);
 		light.setLayoutY(Y_COORD);
 	}
-	// this maybe should be modified so it can't be accessed or changed? 
 	
 	private final void setSize() {
 		light.setFitWidth(24);
@@ -48,13 +45,12 @@ public class Light {
 		return new Random().nextInt(3); // 0-2 inclusive, 3 exclusive
 	}
 	
-	// Want the light to move through different images every few seconds
-	// Go from green -> yellow -> red
-		// If the light starts on red -> green -> yellow -> red
-		// So on an so forth
-		// Maybe make it recursive?
 	public void setNewImage() {
 		imageIndex = (imageIndex + 1) % lightImages.length; 
 	    light.setImage(new Image(getClass().getResourceAsStream(lightImages[imageIndex])));
+	}
+	
+	public boolean isRed() {
+		return imageIndex == 0;
 	}
 }

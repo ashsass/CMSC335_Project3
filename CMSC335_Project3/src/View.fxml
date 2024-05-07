@@ -37,7 +37,7 @@
             </Label>
             <HBox alignment="CENTER" prefHeight="27.0" prefWidth="169.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#asyncAddCar" prefHeight="27.0" prefWidth="88.0" text="Add car">
+                  <Button mnemonicParsing="false" onAction="#addCar" prefHeight="27.0" prefWidth="88.0" text="Add car">
                      <HBox.margin>
                         <Insets left="5.0" right="5.0" />
                      </HBox.margin>
