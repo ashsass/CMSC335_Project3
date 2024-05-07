@@ -14,12 +14,14 @@ import javafx.scene.image.*;
 public class Car {
 	private ImageView car;
 	public TranslateTransition translate;
+	private static int id = 0;
 	
 	public Car() {
 		car = new ImageView(new Image(getClass().getResourceAsStream("/resources/car.png")));
 		setTranslation();
 		setYPlacement();
 		setSize();
+		id++;
 	}
 	
 	public ImageView getCar() {
@@ -43,6 +45,10 @@ public class Car {
 	private final void setTranslation() {
 		translate = new TranslateTransition(Duration.seconds(12), car);
 		translate.setCycleCount(1);
-		translate.setToX(710);
+		translate.setToX(1000);
+	}
+	
+	public String getID() {
+		return "" + id;
 	}
 }

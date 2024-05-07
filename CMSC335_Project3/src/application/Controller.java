@@ -26,7 +26,9 @@ public class Controller implements Initializable{
 	@FXML
 	private Pane pane;
 	@FXML 
-	private Label timeDisplay;
+	private Label timeDisplay, car1, car2, car3;
+	@FXML
+	private VBox vBox;
 	
 	/* Instance variables */
 	private String timeText; //This string will be updated using the executor
@@ -40,8 +42,11 @@ public class Controller implements Initializable{
 	private ArrayList<Car> carList = new ArrayList<>();
 	private ArrayList<Light> lightList = new ArrayList<>();
 	private ArrayList<TranslateTransition> translateList = new ArrayList<>();
+	public ArrayList<Label> carLocationList = new ArrayList<>();
 	private final Double LIGHT_DIST = 100.0;
 	private final Double FIRST_LIGHT_X = 176.0;
+	
+	private int vboxChildIndex = 2;
 
 	// Start the initial GUI frame in the main JavaFX thread
 	@Override
@@ -78,6 +83,13 @@ public class Controller implements Initializable{
 		executorCar.scheduleAtFixedRate(() -> {
 			for(Car car: carList) 
 				updateCarPosition(car);
+			Platform.runLater(() -> {
+				if(carLocationList.size() > 0) {
+					for(Label label: carLocationList) {
+						label.setText(getXLocation(carList.get(carLocationList.indexOf(label))));
+					}
+				}
+			});
 		}, 0, 100, TimeUnit.MILLISECONDS);
 	}
 	
@@ -122,6 +134,7 @@ public class Controller implements Initializable{
 		}
 		
 		carList.add(car);
+		addCarLabel(car);
 		pane.getChildren().add(car.getCar());
 	}
 	
@@ -184,6 +197,22 @@ public class Controller implements Initializable{
 				Locale.getDefault());
       LocalDateTime ldt = LocalDateTime.now();
       return dtf.format(ldt);
+	}
+	
+	public static String getXLocation(Car car) {
+		return String.format("%.2f", car.translate.getNode().getTranslateX());
+	}
+	
+	public void displayCarPosition() {
+		
+	}
+	
+	public void addCarLabel(Car car) {
+		String labelString = "Car #" + car.getID();
+		Label label = new Label(labelString);
+		carLocationList.add(label);
+		vBox.getChildren().add(vboxChildIndex, label);
+		vboxChildIndex++;
 	}
 }
 	

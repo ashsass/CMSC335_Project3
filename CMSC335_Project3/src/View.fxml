@@ -28,21 +28,21 @@
                </font>
             </Label>
             <Label fx:id="timeDisplay" alignment="CENTER" prefHeight="21.0" prefWidth="180.0" text="Time Display" />
-            <Label fx:id="car_1" prefHeight="45.0" prefWidth="200.0" text="Car #1">
+           <!--<Label fx:id="car1" prefHeight="45.0" prefWidth="200.0" text="Car #1">
                <padding>
                   <Insets left="10.0" />
                </padding>
             </Label>
-            <Label fx:id="car_2" prefHeight="45.0" prefWidth="200.0" text="Car #2">
+            <Label fx:id="car2" prefHeight="45.0" prefWidth="200.0" text="Car #2">
                <padding>
                   <Insets left="10.0" />
                </padding>
             </Label>
-            <Label fx:id="car_3" prefHeight="45.0" prefWidth="200.0" text="Car #3">
+            <Label fx:id="car3" prefHeight="45.0" prefWidth="200.0" text="Car #3">
                <padding>
                   <Insets left="10.0" />
                </padding>
-            </Label>
+            </Label>   -->
             <HBox alignment="CENTER" prefHeight="27.0" prefWidth="169.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#addCar" prefHeight="27.0" prefWidth="88.0" text="Add car">
