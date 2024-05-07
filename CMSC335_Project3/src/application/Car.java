@@ -1,3 +1,10 @@
+/* 
+ * Name: Ashlyn Sassaman
+ * Project 3 for CMSC335
+ * Due May 2024
+ * Description: The Car file that holds the class to represent each Car object that is created on the GUI. This holds the ImageView to represent the car, sets its position on the GUI and its translation parameters. 
+ */
+
 package application;
 
 import javafx.util.*;

@@ -1,3 +1,10 @@
+/* 
+ * Name: Ashlyn Sassaman
+ * Project 3 for CMSC335
+ * Due May 2024
+ * Description: The Light file that holds the class to represent the light objects that are placed on the GUI. Uses ImageView to represent the light, sets its placement in the GUI, and allows it to change through green, red, and yellow lights. 
+ */
+
 package application;
 
 import javafx.scene.image.Image;

@@ -1,3 +1,10 @@
+/* Name: Ashlyn Sassaman
+ * Project 3 for CMSC335
+ * Due May 2024
+ * Description: The Controller file handles the logic and event handlers for the GUI. 
+ */
+
+
 package application;
 
 import java.net.URL;
