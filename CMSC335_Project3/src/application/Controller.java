@@ -21,7 +21,6 @@ import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 
 public class Controller implements Initializable{
-	
 	/* FXML Variables */
 	@FXML
 	private Pane pane;
@@ -32,20 +31,17 @@ public class Controller implements Initializable{
 	
 	/* Instance variables */
 	private String timeText; //This string will be updated using the executor
-	
-	// Had to make this public to be accessed through TrafficMain - could maybe use a method and keep it private?
 	public ScheduledExecutorService executorTime = Executors.newSingleThreadScheduledExecutor();
 	public ScheduledExecutorService executorLight = Executors.newScheduledThreadPool(5);
 	public ScheduledExecutorService executorCar = Executors.newScheduledThreadPool(5);
-	
 	
 	private ArrayList<Car> carList = new ArrayList<>();
 	private ArrayList<Light> lightList = new ArrayList<>();
 	private ArrayList<TranslateTransition> translateList = new ArrayList<>();
 	public ArrayList<Label> carLocationList = new ArrayList<>();
+	
 	private final Double LIGHT_DIST = 100.0;
 	private final Double FIRST_LIGHT_X = 176.0;
-	
 	private int vboxChildIndex = 2;
 
 	// Start the initial GUI frame in the main JavaFX thread
@@ -107,19 +103,7 @@ public class Controller implements Initializable{
 		}	
 	}
 	
-	
-	// Use Platform to appropriately populate the JavaFX UI
-	// Probably need to figure something out with this so that the objects are created and held in the background? Only want 5 to be at the starting point at any time 
-//	public void asyncAddCar() {
-//		System.out.println("asyncAddCar called");
-//		Future<?> future = executor.submit(() -> addCar());
-//		Platform.runLater(() -> {
-//			addCar();
-//		});
-//	}
-
 	// Allow user to add a new car to the GUI
-	// WANT TO ADD THIS TO CAR CLASS BUT PROBLEM IS NEED TO ACCESS OTHER  CARS MAYBE USE THE ARRAYLIST STILL TO KEEP TRACK OF OTHER CARS BUT MAKE IT STATIC SO THAT THERE IS ONE AND IT GETS UPDATED THROUGHOUT THE LIFETIME OF THE CLASS
 	public void addCar() {
 		Car car = new Car();
 		translateList.add(car.translate);
@@ -130,10 +114,7 @@ public class Controller implements Initializable{
 						- (car.getCar().getFitWidth() + 3));
 			if(carList.size() == 0)
 				car.setXPlacement(0.0);
-//			else 
-//				car.setXPlacement(0.0);
 		}
-		
 		carList.add(car);
 		addCarLabel(car);
 		pane.getChildren().add(car.getCar());
