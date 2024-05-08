@@ -104,7 +104,7 @@ public class Controller implements Initializable{
 	}
 	
 	// Allow user to add a new car to the GUI
-	private void addCar() {
+	public void addCar() {
 		Car car = new Car();
 		translateList.add(car.translate);
 		
@@ -123,7 +123,7 @@ public class Controller implements Initializable{
 	}
 	
 	// Allow user to add a new light to the GUI
-	private void addLight() {
+	public void addLight() {
 		Light light = new Light();
 		// Check if this is the first light being added
 		if(lightList.size() == 0)
@@ -141,24 +141,24 @@ public class Controller implements Initializable{
 	}
 	
 	// Start the animation using the Start button
-	private void start() {
+	public void start() {
 		for(TranslateTransition e: translateList)
 			e.play();
 	}
 	
 	// Pause the animation using the Pause button
-	private void pause() {
+	public void pause() {
 		for(TranslateTransition e: translateList)
 			e.pause();
 	}
 	
 	// Continue the animation after using the Pause button
-	private void cont() {
+	public void cont() {
 		start();
 	}
 	
 	// Stop the animation using the Stop button. 
-	private void stop() {
+	public void stop() {
 		for(TranslateTransition e: translateList)
 			e.stop();
 	}
